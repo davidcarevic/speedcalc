@@ -27,23 +27,33 @@
 
     // Allows the configuration of the slowing down interval
     // Default - For the 75 % of the duration, it will run at 25 % increased speed, the last 25 % the speed will fade until it reaches 1 (which is the default speed)
-    var duration = 50; // duration in seconds - default 180
+    var duration = 25; // duration in seconds - default 180
     var speedDownDuration = duration * 1.0; // low long is the slowing down interval / set to 1.0 to start from the very begining
-    var durationOfNewSpeed = duration * 0.00; // how long should the new speed be active / set to 0.0 to start slowning down instantly
+    var durationOfNewSpeed = duration * 0.0; // how long should the new speed be active / set to 0.0 to start slowning down instantly
     var speedUp = 0.75; // % speedup - .x is the % from 0.something - 1.0 - default 0.25
     var normalSpeed = 1; // some number to represent normal speed - must be one!
     var count = 0; // time counter ( in seconds )
-    var multiplier = parseFloat(normalSpeed * speedUp + normalSpeed)  // multiplier
+    var startMultiplier = parseFloat(normalSpeed * speedUp + normalSpeed)
+    var multiplier = parseFloat(normalSpeed * speedUp + normalSpeed);  // multiplier
     var multiplierReduction = 2*(speedUp / speedDownDuration); // devide the speedup by the amount of time we want the speedup to fade
 
     console.log('The speed needs to be reduced by ' + multiplierReduction + ' every 1 second for ' + speedDownDuration + ' sec. Starting from second '+durationOfNewSpeed);
 
+    var stopChanging = 0;
     // interval for the simulation
     var speedInt = setInterval(() => {
         // if the count reacher the slowdown time, start deceasing the multiplier
-        if (count >= durationOfNewSpeed) {
+        if (count >= durationOfNewSpeed && count < duration) {
             // reduce the multiplier by the required amount
             multiplier -= multiplierReduction;
+        } 
+        if(count >= duration && stopChanging == 0){
+            if(multiplier > startMultiplier){
+                multiplier = 1;
+                stopChanging =1;
+            } else {
+                multiplier += multiplierReduction;
+            }
         }
         currentSpeedMultiplier = normalSpeed * multiplier;
         currentSpeedMultiplier = currentSpeedMultiplier.toFixed(2);
@@ -60,9 +70,9 @@
     
         // clear intervals
         if (count >= duration) {
-            clearInterval(speedInt);
+            // clearInterval(speedInt);
             // reset the current speed multiplier to 1
-            currentSpeedMultiplier = 1;
+            // currentSpeedMultiplier = 1;
             console.log('Done! The current speed has been set to : ' + currentSpeedMultiplier);
         }
     }, 1000);   
