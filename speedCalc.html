@@ -1,40 +1,33 @@
 <script>
-    // Instead of keeping a constant 25% speed increase
-    // we can make the function average out to that % by starting from double of that amount and ending at 1 which is normal speed
-
-    var duration = 180; // duration in seconds - default 180
+    // Allows the configuration of the slowing down interval
+    var duration = 25; // duration in seconds - default 180
+    var speedDownDuration = duration * 0.25; // low long is the slowing down interval / set to 1.0 to start from the very begining
+    var durationOfNewSpeed = duration * 0.75; // how long should the new speed be active / set to 0.0 to start slowning down instantly
     var speedUp = 0.25; // % speedup - .x is the % from 0.something - 1.0 - default 0.25
     var normalSpeed = 1; // some number to represent normal speed - must be one!
     var count = 0; // time counter ( in seconds )
-    var coeficient = parseFloat((normalSpeed * (speedUp * 2)) + normalSpeed)  // coeficient for the calcuations, 2 x the current % so the average would come out to the number we want
-    var onePercentOfDurationInSeconds = duration / 100; // 1% in seconds so we could use that to slow down 1 % of coeficient
-    var coeficientReduction = (speedUp * 2) / 100; // how much does the coeficient need to be reduced every 1 % of the total duration
+    var multiplier = parseFloat(normalSpeed * speedUp + normalSpeed)  // multiplier
+    var multiplierReduction = speedUp / speedDownDuration; // devide the speedup by the amount of time we want the speedup to fade
 
-    console.log('Speed needs to be reduced by - ' + coeficientReduction + ', every ' + onePercentOfDurationInSeconds + ' sec.');
+    console.log('The speed needs to be reduced by ' + multiplierReduction + ' every 1 second for ' + speedDownDuration + ' sec.');
 
-    // interval for the current speed multiplier assuming the new speed will be [some pixel lenght whatever x currentSpeedMultiplier]
+    // interval for the simulation
     var speedInt = setInterval(() => {
-        // current speed is equal to normal speed * coeficient so I could convert it to 2 decimals, doesn't really matter
-        // This number can be used to control the current speed from which would average out at 50 %
-        currentSpeedMultiplier = normalSpeed * coeficient;
+        // if the count reacher the slowdown time, start deceasing the multiplier
+        if (count >= durationOfNewSpeed) {
+            // reduce the multiplier by the required amount
+            multiplier -= multiplierReduction;
+        }
+        currentSpeedMultiplier = normalSpeed * multiplier;
         currentSpeedMultiplier = currentSpeedMultiplier.toFixed(2);
         console.log('Time : ' + count + ' sec\nCurrent speed multiplier: ' + currentSpeedMultiplier);
         count++;
-
         // clear intervals
         if (count >= duration) {
             clearInterval(speedInt);
-            clearInterval(coeficientInt);
             // reset the current speed multiplier to 1
             currentSpeedMultiplier = 1;
             console.log('Done! The current speed has been set to : ' + currentSpeedMultiplier);
         }
-
     }, 1000);
-
-    // interval for the reduction of the coeficient
-    var coeficientInt = setInterval(() => {
-        // reduce the coeficient by the required amount
-        coeficient = coeficient - coeficientReduction;
-    }, onePercentOfDurationInSeconds * 1000);
 </script>
