@@ -53,7 +53,7 @@
                 multiplier -= multiplierReduction;
             }
         } 
-        if(block.style.width<block2.style.width){
+        if(totalWidth<totalWidth2){
             multiplier += multiplierReduction;
             if(multiplier >= 1){
                 multiplier = 1;
@@ -65,6 +65,7 @@
 
         // visualize the red bar
         added = newWidth * currentSpeedMultiplier; 
+        
         totalWidth += added;
         totalWidth2 += newWidth * normalSpeed;
         block.style.width = totalWidth + 'px';
