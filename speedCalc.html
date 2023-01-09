@@ -56,7 +56,10 @@
         if(totalWidth<totalWidth2){
             multiplier += multiplierReduction;
             if(multiplier >= 1){
+                console.log('Equal');
+                clearInterval(speedInt);
                 multiplier = 1;
+                console.log('Done! The current speed has been set to : ' + currentSpeedMultiplier);
             }
         }
         currentSpeedMultiplier = normalSpeed * multiplier;
@@ -78,7 +81,7 @@
             // clearInterval(speedInt);
             // reset the current speed multiplier to 1
             // currentSpeedMultiplier = 1;
-            console.log('Done! The current speed has been set to : ' + currentSpeedMultiplier);
+            
         }
     }, 1000);   
 </script>
