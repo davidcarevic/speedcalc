@@ -5,24 +5,36 @@
         height: 10px;
         display: block;
     }
+    #test2 {
+        background-color: blue;
+        width: 0px;
+        height: 10px;
+        display: block;
+    }
 </style>
+<p>Sped Up</p>
 <div id="test"></div>
+<br><br>
+<p>Normal speed</p>
+<div id="test2"></div>
 <script>
     // red bar and basic configurations for the bar
     var block = document.getElementById('test');
+    var block2 = document.getElementById('test2');
     var newWidth = 10;
     var totalWidth = 0;
+    var totalWidth2 = 0;
 
     // Allows the configuration of the slowing down interval
     // Default - For the 75 % of the duration, it will run at 25 % increased speed, the last 25 % the speed will fade until it reaches 1 (which is the default speed)
     var duration = 50; // duration in seconds - default 180
-    var speedDownDuration = duration * 0.25; // low long is the slowing down interval / set to 1.0 to start from the very begining
-    var durationOfNewSpeed = duration * 0.75; // how long should the new speed be active / set to 0.0 to start slowning down instantly
+    var speedDownDuration = duration * 1.0; // low long is the slowing down interval / set to 1.0 to start from the very begining
+    var durationOfNewSpeed = duration * 0.00; // how long should the new speed be active / set to 0.0 to start slowning down instantly
     var speedUp = 0.75; // % speedup - .x is the % from 0.something - 1.0 - default 0.25
     var normalSpeed = 1; // some number to represent normal speed - must be one!
     var count = 0; // time counter ( in seconds )
     var multiplier = parseFloat(normalSpeed * speedUp + normalSpeed)  // multiplier
-    var multiplierReduction = speedUp / speedDownDuration; // devide the speedup by the amount of time we want the speedup to fade
+    var multiplierReduction = 2*(speedUp / speedDownDuration); // devide the speedup by the amount of time we want the speedup to fade
 
     console.log('The speed needs to be reduced by ' + multiplierReduction + ' every 1 second for ' + speedDownDuration + ' sec. Starting from second '+durationOfNewSpeed);
 
@@ -38,9 +50,11 @@
         count++;
 
         // visualize the red bar
-        added = newWidth * currentSpeedMultiplier
-        totalWidth = totalWidth + added;
+        added = newWidth * currentSpeedMultiplier; 
+        totalWidth += added;
+        totalWidth2 += newWidth;
         block.style.width = totalWidth + 'px';
+        block2.style.width = totalWidth2 + 'px';
 
         console.log('Time : ' + count + ' sec\nCurrent speed multiplier: ' + currentSpeedMultiplier + '\nAdded pixel per interval : ' + added + '\nTotal pixel count : ' + totalWidth);
     
