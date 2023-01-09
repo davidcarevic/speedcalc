@@ -24,7 +24,7 @@
     var multiplier = parseFloat(normalSpeed * speedUp + normalSpeed)  // multiplier
     var multiplierReduction = speedUp / speedDownDuration; // devide the speedup by the amount of time we want the speedup to fade
 
-    console.log('The speed needs to be reduced by ' + multiplierReduction + ' every 1 second for ' + speedDownDuration + ' sec.');
+    console.log('The speed needs to be reduced by ' + multiplierReduction + ' every 1 second for ' + speedDownDuration + ' sec. Starting from second '+durationOfNewSpeed);
 
     // interval for the simulation
     var speedInt = setInterval(() => {
