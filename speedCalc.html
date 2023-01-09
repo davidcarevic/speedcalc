@@ -27,7 +27,7 @@
 
     // Allows the configuration of the slowing down interval
     // Default - For the 75 % of the duration, it will run at 25 % increased speed, the last 25 % the speed will fade until it reaches 1 (which is the default speed)
-    var duration = 25; // duration in seconds - default 180
+    var duration = 50; // duration in seconds - default 180
     var speedDownDuration = duration * 1.0; // low long is the slowing down interval / set to 1.0 to start from the very begining
     var durationOfNewSpeed = duration * 0.0; // how long should the new speed be active / set to 0.0 to start slowning down instantly
     var speedUp = 0.75; // % speedup - .x is the % from 0.something - 1.0 - default 0.25
@@ -45,14 +45,18 @@
         // if the count reacher the slowdown time, start deceasing the multiplier
         if (count >= durationOfNewSpeed && count < duration) {
             // reduce the multiplier by the required amount
-            multiplier -= multiplierReduction;
-        } 
-        if(count >= duration && stopChanging == 0){
-            if(multiplier > startMultiplier){
-                multiplier = 1;
-                stopChanging =1;
+            
+            if(multiplier <= 0.9){
+                multiplier = 0.9;
+                stopChanging = 1;
             } else {
-                multiplier += multiplierReduction;
+                multiplier -= multiplierReduction;
+            }
+        } 
+        if(block.style.width<block2.style.width){
+            multiplier += multiplierReduction;
+            if(multiplier >= 1){
+                multiplier = 1;
             }
         }
         currentSpeedMultiplier = normalSpeed * multiplier;
