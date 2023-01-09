@@ -1,5 +1,6 @@
 <script>
     // Allows the configuration of the slowing down interval
+    // Default - For the 75 % of the duration, it will run at 25 % increased speed, the last 25 % the speed will fade until it reaches 1 (which is the default speed)
     var duration = 25; // duration in seconds - default 180
     var speedDownDuration = duration * 0.25; // low long is the slowing down interval / set to 1.0 to start from the very begining
     var durationOfNewSpeed = duration * 0.75; // how long should the new speed be active / set to 0.0 to start slowning down instantly
